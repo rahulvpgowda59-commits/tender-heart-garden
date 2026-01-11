@@ -2,87 +2,134 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
-All colors MUST be HSL.
-*/
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Quicksand:wght@300;400;500;600&display=swap');
+
+/* 🌸 Sanctuary Design System - A gentle emotional space */
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
+    /* Core Palette - Moonlit Garden */
+    --background: 270 30% 98%;
+    --foreground: 270 20% 20%;
 
-    --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
+    --card: 270 40% 99%;
+    --card-foreground: 270 20% 20%;
 
-    --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
+    --popover: 270 40% 99%;
+    --popover-foreground: 270 20% 20%;
 
-    --primary: 222.2 47.4% 11.2%;
-    --primary-foreground: 210 40% 98%;
+    /* Lavender Primary */
+    --primary: 270 40% 70%;
+    --primary-foreground: 270 20% 15%;
 
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
+    /* Blush Secondary */
+    --secondary: 350 50% 92%;
+    --secondary-foreground: 350 30% 30%;
 
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
+    /* Muted - Soft Cream */
+    --muted: 40 30% 96%;
+    --muted-foreground: 270 10% 50%;
 
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
+    /* Accent - Soft Gold */
+    --accent: 40 60% 90%;
+    --accent-foreground: 40 50% 25%;
 
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
+    --destructive: 0 60% 60%;
+    --destructive-foreground: 0 0% 100%;
 
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 222.2 84% 4.9%;
+    --border: 270 20% 90%;
+    --input: 270 20% 92%;
+    --ring: 270 40% 70%;
 
-    --radius: 0.5rem;
+    --radius: 1rem;
+
+    /* Custom Sanctuary Colors */
+    --lavender: 270 40% 75%;
+    --lavender-light: 270 50% 92%;
+    --lavender-deep: 270 35% 55%;
+    
+    --blush: 350 60% 88%;
+    --blush-light: 350 70% 95%;
+    --blush-deep: 350 45% 70%;
+    
+    --moonlight: 45 40% 97%;
+    --moonlight-warm: 40 50% 94%;
+    
+    --gold-soft: 40 60% 85%;
+    --gold-shimmer: 40 70% 75%;
+    
+    --rose-mist: 340 35% 85%;
+    --sage-gentle: 140 20% 85%;
+    
+    /* Gradients */
+    --gradient-sanctuary: linear-gradient(135deg, hsl(270, 50%, 95%) 0%, hsl(350, 60%, 96%) 50%, hsl(40, 50%, 97%) 100%);
+    --gradient-morning: linear-gradient(180deg, hsl(45, 60%, 95%) 0%, hsl(350, 50%, 95%) 50%, hsl(270, 40%, 96%) 100%);
+    --gradient-twilight: linear-gradient(180deg, hsl(270, 40%, 90%) 0%, hsl(270, 35%, 85%) 50%, hsl(260, 30%, 80%) 100%);
+    --gradient-blush: linear-gradient(135deg, hsl(350, 60%, 92%) 0%, hsl(340, 50%, 88%) 100%);
+    --gradient-gold: linear-gradient(135deg, hsl(40, 60%, 90%) 0%, hsl(45, 70%, 85%) 100%);
+    
+    /* Shadows - Soft and Dreamy */
+    --shadow-soft: 0 4px 20px -4px hsl(270, 30%, 80% / 0.3);
+    --shadow-glow: 0 8px 40px -8px hsl(270, 40%, 75% / 0.25);
+    --shadow-float: 0 12px 50px -12px hsl(270, 35%, 70% / 0.2);
+    
+    /* Typography */
+    --font-display: 'Cormorant Garamond', Georgia, serif;
+    --font-body: 'Quicksand', -apple-system, sans-serif;
 
     --sidebar-background: 0 0% 98%;
-
     --sidebar-foreground: 240 5.3% 26.1%;
-
     --sidebar-primary: 240 5.9% 10%;
-
     --sidebar-primary-foreground: 0 0% 98%;
-
     --sidebar-accent: 240 4.8% 95.9%;
-
     --sidebar-accent-foreground: 240 5.9% 10%;
-
     --sidebar-border: 220 13% 91%;
-
     --sidebar-ring: 217.2 91.2% 59.8%;
   }
 
   .dark {
-    --background: 222.2 84% 4.9%;
-    --foreground: 210 40% 98%;
+    --background: 270 20% 8%;
+    --foreground: 270 20% 95%;
 
-    --card: 222.2 84% 4.9%;
-    --card-foreground: 210 40% 98%;
+    --card: 270 20% 10%;
+    --card-foreground: 270 20% 95%;
 
-    --popover: 222.2 84% 4.9%;
-    --popover-foreground: 210 40% 98%;
+    --popover: 270 20% 10%;
+    --popover-foreground: 270 20% 95%;
 
-    --primary: 210 40% 98%;
-    --primary-foreground: 222.2 47.4% 11.2%;
+    --primary: 270 40% 70%;
+    --primary-foreground: 270 20% 10%;
 
-    --secondary: 217.2 32.6% 17.5%;
-    --secondary-foreground: 210 40% 98%;
+    --secondary: 350 30% 20%;
+    --secondary-foreground: 350 50% 90%;
 
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
+    --muted: 270 15% 15%;
+    --muted-foreground: 270 10% 60%;
 
-    --accent: 217.2 32.6% 17.5%;
-    --accent-foreground: 210 40% 98%;
+    --accent: 40 40% 20%;
+    --accent-foreground: 40 60% 90%;
 
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 40% 98%;
+    --destructive: 0 50% 40%;
+    --destructive-foreground: 0 0% 100%;
 
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
-    --ring: 212.7 26.8% 83.9%;
+    --border: 270 15% 20%;
+    --input: 270 15% 18%;
+    --ring: 270 40% 60%;
+
+    --lavender: 270 35% 50%;
+    --lavender-light: 270 30% 25%;
+    --lavender-deep: 270 40% 65%;
+    
+    --blush: 350 40% 30%;
+    --blush-light: 350 35% 20%;
+    --blush-deep: 350 50% 60%;
+    
+    --moonlight: 270 15% 12%;
+    --moonlight-warm: 40 20% 15%;
+    
+    --gold-soft: 40 40% 25%;
+    --gold-shimmer: 40 50% 40%;
+    
     --sidebar-background: 240 5.9% 10%;
     --sidebar-foreground: 240 4.8% 95.9%;
     --sidebar-primary: 224.3 76.3% 48%;
@@ -99,7 +146,176 @@ All colors MUST be HSL.
     @apply border-border;
   }
 
-  body {
-    @apply bg-background text-foreground;
+  html {
+    scroll-behavior: smooth;
   }
+
+  body {
+    @apply bg-background text-foreground font-body antialiased;
+    font-family: var(--font-body);
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-display);
+  }
+}
+
+@layer components {
+  .sanctuary-gradient {
+    background: var(--gradient-sanctuary);
+  }
+  
+  .morning-gradient {
+    background: var(--gradient-morning);
+  }
+  
+  .twilight-gradient {
+    background: var(--gradient-twilight);
+  }
+  
+  .card-sanctuary {
+    @apply bg-card rounded-2xl p-6;
+    box-shadow: var(--shadow-soft);
+    backdrop-filter: blur(10px);
+    border: 1px solid hsl(var(--border) / 0.5);
+  }
+  
+  .card-floating {
+    @apply bg-card rounded-3xl p-8;
+    box-shadow: var(--shadow-float);
+    backdrop-filter: blur(20px);
+    border: 1px solid hsl(var(--border) / 0.3);
+  }
+  
+  .text-display {
+    font-family: var(--font-display);
+    @apply tracking-wide;
+  }
+  
+  .text-handwritten {
+    font-family: var(--font-display);
+    @apply italic;
+  }
+  
+  .glow-soft {
+    box-shadow: var(--shadow-glow);
+  }
+  
+  .btn-gentle {
+    @apply transition-all duration-300 ease-out;
+  }
+  
+  .btn-gentle:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-glow);
+  }
+  
+  .fade-in {
+    animation: fadeIn 0.6s ease-out forwards;
+  }
+  
+  .float-gentle {
+    animation: floatGentle 6s ease-in-out infinite;
+  }
+  
+  .breathe {
+    animation: breathe 4s ease-in-out infinite;
+  }
+}
+
+@layer utilities {
+  .bg-lavender {
+    background-color: hsl(var(--lavender));
+  }
+  
+  .bg-lavender-light {
+    background-color: hsl(var(--lavender-light));
+  }
+  
+  .bg-blush {
+    background-color: hsl(var(--blush));
+  }
+  
+  .bg-blush-light {
+    background-color: hsl(var(--blush-light));
+  }
+  
+  .bg-moonlight {
+    background-color: hsl(var(--moonlight));
+  }
+  
+  .bg-gold-soft {
+    background-color: hsl(var(--gold-soft));
+  }
+  
+  .text-lavender-deep {
+    color: hsl(var(--lavender-deep));
+  }
+  
+  .text-blush-deep {
+    color: hsl(var(--blush-deep));
+  }
+  
+  .text-gold-shimmer {
+    color: hsl(var(--gold-shimmer));
+  }
+  
+  .border-lavender {
+    border-color: hsl(var(--lavender));
+  }
+  
+  .border-blush {
+    border-color: hsl(var(--blush));
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes floatGentle {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
+@keyframes breathe {
+  0%, 100% {
+    opacity: 0.7;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.02);
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+.shimmer {
+  background: linear-gradient(
+    90deg,
+    hsl(var(--lavender-light)) 0%,
+    hsl(var(--blush-light)) 50%,
+    hsl(var(--lavender-light)) 100%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 3s ease-in-out infinite;
 }

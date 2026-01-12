@@ -10,6 +10,7 @@ import { ConsentToggle } from '@/components/sanctuary/ConsentToggle';
 import { BookmarkSelector, BookmarkType } from '@/components/sanctuary/BookmarkSelector';
 import { StreakDisplay } from '@/components/sanctuary/StreakDisplay';
 import { TakingSpaceButton } from '@/components/sanctuary/TakingSpaceButton';
+import { GentleNoteInbox } from '@/components/sanctuary/GentleNoteInbox';
 import { getCurrentTimeMode, formatDate, getTodayDate } from '@/lib/timeMode';
 import { useAuth } from '@/contexts/AuthContext';
 import { supabase } from '@/integrations/supabase/client';
@@ -20,7 +21,7 @@ import { toast } from 'sonner';
 type Step = 'mood' | 'nowords' | 'journal' | 'help' | 'consent' | 'complete';
 
 const Index = () => {
-  const { user, isWriter, signOut, loading: authLoading } = useAuth();
+  const { user, isWriter, isReader, isAdmin, signOut, loading: authLoading } = useAuth();
   const navigate = useNavigate();
   const [timeMode, setTimeMode] = useState(getCurrentTimeMode());
   const [step, setStep] = useState<Step>('mood');
@@ -68,6 +69,17 @@ const Index = () => {
 
   if (!user) {
     navigate('/auth');
+    return null;
+  }
+
+  // Redirect based on role
+  if (isReader && !isWriter && !isAdmin) {
+    navigate('/reader');
+    return null;
+  }
+
+  if (isAdmin && !isWriter) {
+    navigate('/admin');
     return null;
   }
 
@@ -130,6 +142,9 @@ const Index = () => {
 
   return (
     <div className="min-h-screen sanctuary-gradient">
+      {/* Gentle Note Inbox for writer */}
+      <GentleNoteInbox />
+      
       <header className="p-4 flex items-center justify-between">
         <p className="text-sm text-muted-foreground">{formatDate(new Date())}</p>
         <div className="flex items-center gap-2">

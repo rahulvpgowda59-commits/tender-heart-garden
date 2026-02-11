@@ -1,220 +1,187 @@
-import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { Button } from '@/components/ui/button';
-import { MorningMode } from '@/components/sanctuary/MorningMode';
-import { MoodSelector, MoodType } from '@/components/sanctuary/MoodSelector';
-import { NoWordsMode } from '@/components/sanctuary/NoWordsMode';
-import { JournalEditor } from '@/components/sanctuary/JournalEditor';
-import { HelpRequest, HelpRequestType } from '@/components/sanctuary/HelpRequest';
-import { ConsentToggle } from '@/components/sanctuary/ConsentToggle';
-import { BookmarkSelector, BookmarkType } from '@/components/sanctuary/BookmarkSelector';
-import { StreakDisplay } from '@/components/sanctuary/StreakDisplay';
-import { TakingSpaceButton } from '@/components/sanctuary/TakingSpaceButton';
-import { GentleNoteInbox } from '@/components/sanctuary/GentleNoteInbox';
-import { getCurrentTimeMode, formatDate, getTodayDate } from '@/lib/timeMode';
-import { useAuth } from '@/contexts/AuthContext';
-import { supabase } from '@/integrations/supabase/client';
-import { useNavigate } from 'react-router-dom';
-import { ArrowLeft, ArrowRight, Check, LogOut } from 'lucide-react';
-import { toast } from 'sonner';
+import { FloatingHearts } from '@/components/valentine/FloatingHearts';
+import { LoveCounter } from '@/components/valentine/LoveCounter';
+import { OpenWhenLetters } from '@/components/valentine/OpenWhenLetters';
+import { WhyILoveYou } from '@/components/valentine/WhyILoveYou';
+import { VirtualHug } from '@/components/valentine/VirtualHug';
+import { ConfettiHearts } from '@/components/valentine/ConfettiHearts';
+import { useEffect, useState } from 'react';
 
-type Step = 'mood' | 'nowords' | 'journal' | 'help' | 'consent' | 'complete';
+const fadeUp = {
+  hidden: { opacity: 0, y: 30 },
+  visible: { opacity: 1, y: 0 },
+};
 
 const Index = () => {
-  const { user, isWriter, isReader, isAdmin, signOut, loading: authLoading } = useAuth();
-  const navigate = useNavigate();
-  const [timeMode, setTimeMode] = useState(getCurrentTimeMode());
-  const [step, setStep] = useState<Step>('mood');
-  const [mood, setMood] = useState<MoodType | null>(null);
-  const [noWordsToday, setNoWordsToday] = useState(false);
-  const [helpRequest, setHelpRequest] = useState<HelpRequestType | null>(null);
-  const [allowAccess, setAllowAccess] = useState(false);
-  const [bookmark, setBookmark] = useState<BookmarkType>(null);
-  const [takingSpace, setTakingSpace] = useState(false);
-  const [streak, setStreak] = useState({ current: 0, total: 0 });
-  const [entry, setEntry] = useState({
-    thoughts_on_mind: '',
-    sweet_moments: '',
-    things_that_hurt: '',
-    night_reflection: '',
-    letter_to_self: '',
-    mood_intensity: null as number | null,
-  });
+  const [typedText, setTypedText] = useState('');
+  const fullText = 'Some people search for a lifetime. I found my forever in you.';
 
   useEffect(() => {
+    let i = 0;
     const interval = setInterval(() => {
-      setTimeMode(getCurrentTimeMode());
-    }, 60000);
+      if (i <= fullText.length) {
+        setTypedText(fullText.slice(0, i));
+        i++;
+      } else {
+        clearInterval(interval);
+      }
+    }, 45);
     return () => clearInterval(interval);
   }, []);
 
-  useEffect(() => {
-    if (user) {
-      supabase.from('activity_streaks').select('*').eq('user_id', user.id).maybeSingle()
-        .then(({ data }) => {
-          if (data) setStreak({ current: data.current_streak, total: data.total_days });
-        });
-    }
-  }, [user]);
-
-  if (authLoading) {
-    return (
-      <div className="min-h-screen sanctuary-gradient flex items-center justify-center">
-        <motion.div animate={{ rotate: 360 }} transition={{ duration: 2, repeat: Infinity, ease: "linear" }}>
-          <span className="text-4xl">🌸</span>
-        </motion.div>
-      </div>
-    );
-  }
-
-  if (!user) {
-    navigate('/auth');
-    return null;
-  }
-
-  // Redirect based on role
-  if (isReader && !isWriter && !isAdmin) {
-    navigate('/reader');
-    return null;
-  }
-
-  if (isAdmin && !isWriter) {
-    navigate('/admin');
-    return null;
-  }
-
-  if (timeMode === 'morning') {
-    return <MorningMode />;
-  }
-
-  if (noWordsToday) {
-    return (
-      <div className="min-h-screen sanctuary-gradient relative">
-        <NoWordsMode 
-          onClose={() => { setNoWordsToday(false); navigate('/'); }}
-          onComeBackLater={() => setNoWordsToday(false)}
-        />
-      </div>
-    );
-  }
-
-  const saveEntry = async () => {
-    if (!user) return;
-    try {
-      const { error } = await supabase.from('journal_entries').upsert({
-        user_id: user.id,
-        entry_date: getTodayDate(),
-        mood,
-        mood_intensity: entry.mood_intensity,
-        thoughts_on_mind: entry.thoughts_on_mind || null,
-        sweet_moments: entry.sweet_moments || null,
-        things_that_hurt: entry.things_that_hurt || null,
-        night_reflection: entry.night_reflection || null,
-        letter_to_self: entry.letter_to_self || null,
-        no_words_today: noWordsToday,
-        help_request: helpRequest,
-        allow_reader_access: allowAccess,
-        bookmark,
-        taking_space: takingSpace,
-      }, { onConflict: 'user_id,entry_date' });
-      if (error) throw error;
-      toast.success('Entry saved 🌸');
-    } catch (err) {
-      console.error(err);
-      toast.error('Failed to save');
-    }
-  };
-
-  const handleNext = () => {
-    const steps: Step[] = ['mood', 'journal', 'help', 'consent', 'complete'];
-    const currentIndex = steps.indexOf(step);
-    if (currentIndex < steps.length - 1) {
-      if (step === 'consent') saveEntry();
-      setStep(steps[currentIndex + 1]);
-    }
-  };
-
-  const handleBack = () => {
-    const steps: Step[] = ['mood', 'journal', 'help', 'consent', 'complete'];
-    const currentIndex = steps.indexOf(step);
-    if (currentIndex > 0) setStep(steps[currentIndex - 1]);
-  };
-
   return (
-    <div className="min-h-screen sanctuary-gradient">
-      {/* Gentle Note Inbox for writer */}
-      <GentleNoteInbox />
-      
-      <header className="p-4 flex items-center justify-between">
-        <p className="text-sm text-muted-foreground">{formatDate(new Date())}</p>
-        <div className="flex items-center gap-2">
-          <TakingSpaceButton isActive={takingSpace} onToggle={setTakingSpace} />
-          <Button variant="ghost" size="sm" onClick={signOut}><LogOut className="w-4 h-4" /></Button>
-        </div>
-      </header>
+    <div className="valentine-bg min-h-screen relative overflow-x-hidden">
+      <FloatingHearts />
 
-      <main className="container max-w-4xl mx-auto px-4 py-8">
-        {step === 'mood' && (
-          <div className="space-y-8">
-            <MoodSelector selectedMood={mood} onMoodSelect={setMood} />
-            <div className="flex flex-col items-center gap-4">
-              <Button onClick={handleNext} className="bg-lavender hover:bg-lavender-deep text-primary-foreground px-8">
-                Continue <ArrowRight className="w-4 h-4 ml-2" />
-              </Button>
-              <Button variant="ghost" onClick={() => { setNoWordsToday(true); saveEntry(); }} className="text-muted-foreground">
-                I don't have words today
-              </Button>
-            </div>
-            <StreakDisplay currentStreak={streak.current} totalDays={streak.total} />
+      {/* Hero */}
+      <section className="min-h-screen flex flex-col items-center justify-center px-6 text-center relative z-10">
+        <motion.div
+          initial="hidden"
+          animate="visible"
+          variants={fadeUp}
+          transition={{ duration: 1 }}
+        >
+          <span className="text-5xl mb-6 block">🤍</span>
+          <h1 className="font-display text-5xl md:text-7xl text-rose-800 mb-6 leading-tight">
+            For My Forever
+          </h1>
+          <p className="font-display text-xl md:text-2xl text-rose-600 italic max-w-xl mx-auto min-h-[3.5rem]">
+            {typedText}
+            <motion.span
+              animate={{ opacity: [1, 0] }}
+              transition={{ duration: 0.6, repeat: Infinity }}
+              className="inline-block w-[2px] h-5 bg-rose-400 ml-1 align-middle"
+            />
+          </p>
+        </motion.div>
+
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 3.5, duration: 1 }}
+          className="absolute bottom-10"
+        >
+          <motion.span
+            animate={{ y: [0, 8, 0] }}
+            transition={{ duration: 2, repeat: Infinity }}
+            className="text-rose-400 text-2xl block"
+          >
+            ↓
+          </motion.span>
+        </motion.div>
+      </section>
+
+      {/* Love Letter */}
+      <section className="py-20 px-6 relative z-10">
+        <motion.div
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true }}
+          variants={fadeUp}
+          transition={{ duration: 0.8 }}
+          className="max-w-2xl mx-auto glass-card rounded-3xl p-8 md:p-12"
+        >
+          <h2 className="font-display text-3xl md:text-4xl text-rose-800 mb-8 text-center">
+            My Love Letter to You
+          </h2>
+          <div className="font-body text-rose-700 leading-[1.9] text-[15px] md:text-base space-y-5">
+            <p>My love,</p>
+            <p>
+              Before you, I thought I understood love. But then you walked into my life and showed me
+              that everything I knew was just a shadow of what love truly is. You didn't just change
+              my world — you became it.
+            </p>
+            <p>
+              I am grateful for you in ways I will spend the rest of my life trying to put into words.
+              Grateful for the way you see the best in me even when I can't see it in myself. Grateful
+              for the patience you carry, the warmth you bring, and the peace you've planted in the
+              parts of me I thought would always be restless.
+            </p>
+            <p className="font-display text-lg text-rose-800 italic text-center py-2">
+              "I don't just love you. I choose you."
+            </p>
+            <p>
+              You are not temporary. You were never temporary. You are the answer to a prayer I
+              whispered in my loneliest nights. You are the calm I didn't know I was searching for.
+              And every morning I wake up, I choose you — not because I have to, but because there
+              is no version of my life that is whole without you.
+            </p>
+            <p className="font-display text-lg text-rose-800 italic text-center py-2">
+              "With you, love feels peaceful."
+            </p>
+            <p>
+              I want you to know that I see you. Not just the version of you that smiles for the
+              world, but the you that is tired, the you that doubts, the you that is learning to
+              trust again. I see all of you. And I am not leaving.
+            </p>
+            <p>
+              I am building a future with you — not because it's a dream, but because you are the
+              only reality I want. Every plan I make has your name written beside mine. Every hope I
+              hold is one I want to share with you.
+            </p>
+            <p className="font-display text-lg text-rose-800 italic text-center py-2">
+              "You are not a chapter. You are the whole story."
+            </p>
+            <p className="text-right mt-4">
+              Forever and intentionally yours 🤍
+            </p>
           </div>
-        )}
+        </motion.div>
+      </section>
 
-        {step === 'journal' && (
-          <div className="space-y-8">
-            <JournalEditor entry={entry} mood={mood} onChange={setEntry} onAutoSave={saveEntry} />
-            <div className="flex justify-between">
-              <Button variant="ghost" onClick={handleBack}><ArrowLeft className="w-4 h-4 mr-2" /> Back</Button>
-              <Button onClick={handleNext} className="bg-lavender hover:bg-lavender-deep text-primary-foreground">
-                Continue <ArrowRight className="w-4 h-4 ml-2" />
-              </Button>
-            </div>
+      {/* Love Counter */}
+      <section className="py-20 px-6 relative z-10">
+        <LoveCounter />
+      </section>
+
+      {/* Open When Letters */}
+      <section className="py-20 px-6 relative z-10">
+        <OpenWhenLetters />
+      </section>
+
+      {/* Why I Love You */}
+      <section className="py-20 px-6 relative z-10">
+        <WhyILoveYou />
+      </section>
+
+      {/* Virtual Hug */}
+      <section className="py-20 px-6 relative z-10">
+        <VirtualHug />
+      </section>
+
+      {/* Finale */}
+      <section className="py-24 px-6 relative z-10 text-center">
+        <motion.div
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true }}
+          variants={fadeUp}
+          transition={{ duration: 1 }}
+          className="max-w-xl mx-auto"
+        >
+          <ConfettiHearts />
+          <h2 className="font-display text-3xl md:text-5xl text-rose-800 mb-8 leading-snug">
+            You Are Not Just My Valentine
+          </h2>
+          <div className="space-y-4 font-display text-lg md:text-xl text-rose-600 italic">
+            <p>"You are my future."</p>
+            <p>"I am not loving you temporarily. I am loving you intentionally."</p>
+            <p>"No matter what life brings, I choose you."</p>
           </div>
-        )}
-
-        {step === 'help' && (
-          <div className="space-y-8">
-            <HelpRequest selected={helpRequest} onSelect={setHelpRequest} />
-            <div className="flex justify-between">
-              <Button variant="ghost" onClick={handleBack}><ArrowLeft className="w-4 h-4 mr-2" /> Back</Button>
-              <Button onClick={handleNext} className="bg-lavender hover:bg-lavender-deep text-primary-foreground">
-                Continue <ArrowRight className="w-4 h-4 ml-2" />
-              </Button>
-            </div>
-          </div>
-        )}
-
-        {step === 'consent' && (
-          <div className="space-y-8">
-            <ConsentToggle allowAccess={allowAccess} onToggle={setAllowAccess} />
-            <BookmarkSelector selected={bookmark} onSelect={setBookmark} />
-            <div className="flex justify-between">
-              <Button variant="ghost" onClick={handleBack}><ArrowLeft className="w-4 h-4 mr-2" /> Back</Button>
-              <Button onClick={handleNext} className="bg-blush hover:bg-blush-deep text-primary-foreground">
-                Save Entry <Check className="w-4 h-4 ml-2" />
-              </Button>
-            </div>
-          </div>
-        )}
-
-        {step === 'complete' && (
-          <motion.div initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} className="text-center py-12">
-            <span className="text-6xl mb-6 block">🌸</span>
-            <h2 className="text-3xl font-display mb-4">You showed up today</h2>
-            <p className="text-muted-foreground mb-8">That's more than enough.</p>
-            <Button onClick={() => setStep('mood')} variant="ghost">Start fresh</Button>
+          <motion.div
+            animate={{ scale: [1, 1.1, 1] }}
+            transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut' }}
+            className="text-6xl mt-12"
+          >
+            🤍
           </motion.div>
-        )}
-      </main>
+        </motion.div>
+      </section>
+
+      {/* Footer */}
+      <footer className="py-8 text-center text-rose-400 font-body text-xs relative z-10">
+        Made with all my heart, for you.
+      </footer>
     </div>
   );
 };

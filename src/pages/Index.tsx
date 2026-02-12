@@ -1,10 +1,11 @@
 import { motion } from 'framer-motion';
 import { FloatingHearts } from '@/components/valentine/FloatingHearts';
-import { LoveCounter } from '@/components/valentine/LoveCounter';
 import { OpenWhenLetters } from '@/components/valentine/OpenWhenLetters';
 import { WhyILoveYou } from '@/components/valentine/WhyILoveYou';
 import { VirtualHug } from '@/components/valentine/VirtualHug';
 import { ConfettiHearts } from '@/components/valentine/ConfettiHearts';
+import { BackgroundMusic } from '@/components/valentine/BackgroundMusic';
+import { SongTab } from '@/components/valentine/SongTab';
 import { useEffect, useState } from 'react';
 
 const fadeUp = {
@@ -14,8 +15,7 @@ const fadeUp = {
 
 const Index = () => {
   const [typedText, setTypedText] = useState('');
-  const fullText = 'Some people search for a lifetime. I found my forever in you.';
-
+  const fullText = 'Some people search for a lifetime. I found my forever in you, Appi.';
   useEffect(() => {
     let i = 0;
     const interval = setInterval(() => {
@@ -43,7 +43,7 @@ const Index = () => {
         >
           <span className="text-5xl mb-6 block">🤍</span>
           <h1 className="font-display text-5xl md:text-7xl text-rose-800 mb-6 leading-tight">
-            For My Forever
+            For My Forever, Appi 🤍
           </h1>
           <p className="font-display text-xl md:text-2xl text-rose-600 italic max-w-xl mx-auto min-h-[3.5rem]">
             {typedText}
@@ -123,15 +123,10 @@ const Index = () => {
               "You are not a chapter. You are the whole story."
             </p>
             <p className="text-right mt-4">
-              Forever and intentionally yours 🤍
+              Forever and intentionally yours,<br />Moni 🤍
             </p>
           </div>
         </motion.div>
-      </section>
-
-      {/* Love Counter */}
-      <section className="py-20 px-6 relative z-10">
-        <LoveCounter />
       </section>
 
       {/* Open When Letters */}
@@ -178,9 +173,17 @@ const Index = () => {
         </motion.div>
       </section>
 
+      {/* Our Song */}
+      <section className="py-20 px-6 relative z-10">
+        <SongTab />
+      </section>
+
+      {/* Background Music */}
+      <BackgroundMusic />
+
       {/* Footer */}
       <footer className="py-8 text-center text-rose-400 font-body text-xs relative z-10">
-        Made with all my heart, for you.
+        Made with all my heart, for you Appi. — Moni 🤍
       </footer>
     </div>
   );

@@ -31,7 +31,7 @@ export const ForeverNote = () => {
             not just today, but for every day you need to feel held.
           </p>
           <p className="text-right mt-4">
-            Always yours,<br />Moni 🤍
+            Always yours 🤍
           </p>
         </div>
       </div>

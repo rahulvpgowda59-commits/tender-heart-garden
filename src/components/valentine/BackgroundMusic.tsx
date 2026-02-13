@@ -1,14 +1,15 @@
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 export const BackgroundMusic = () => {
   const [playing, setPlaying] = useState(false);
+  const [pausedBySong, setPausedBySong] = useState(false);
   const audioRef = useRef<HTMLAudioElement | null>(null);
 
   const toggle = () => {
     if (!audioRef.current) {
       audioRef.current = new Audio(
-        'https://cdn.pixabay.com/audio/2024/11/29/audio_d27e614372.mp3'
+        'https://cdn.pixabay.com/audio/2022/02/23/audio_ea70ad08e0.mp3'
       );
       audioRef.current.loop = true;
       audioRef.current.volume = 0.3;
@@ -20,6 +21,28 @@ export const BackgroundMusic = () => {
     }
     setPlaying(!playing);
   };
+
+  // Listen for custom events from SongTab to pause/resume
+  useEffect(() => {
+    const handleSongPlay = () => {
+      if (audioRef.current && playing) {
+        audioRef.current.pause();
+        setPausedBySong(true);
+      }
+    };
+    const handleSongPause = () => {
+      if (audioRef.current && pausedBySong) {
+        audioRef.current.play();
+        setPausedBySong(false);
+      }
+    };
+    window.addEventListener('song-play', handleSongPlay);
+    window.addEventListener('song-pause', handleSongPause);
+    return () => {
+      window.removeEventListener('song-play', handleSongPlay);
+      window.removeEventListener('song-pause', handleSongPause);
+    };
+  }, [playing, pausedBySong]);
 
   return (
     <motion.button

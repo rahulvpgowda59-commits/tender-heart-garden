@@ -3,10 +3,10 @@ import { motion, AnimatePresence } from 'framer-motion';
 
 export const BackgroundMusic = () => {
   const [playing, setPlaying] = useState(false);
-  const [pausedBySong, setPausedBySong] = useState(false);
+  const [initialized, setInitialized] = useState(false);
   const audioRef = useRef<HTMLAudioElement | null>(null);
 
-  const toggle = () => {
+  const getAudio = () => {
     if (!audioRef.current) {
       audioRef.current = new Audio(
         'https://cdn.pixabay.com/audio/2022/02/23/audio_ea70ad08e0.mp3'
@@ -14,35 +14,42 @@ export const BackgroundMusic = () => {
       audioRef.current.loop = true;
       audioRef.current.volume = 0.3;
     }
-    if (playing) {
-      audioRef.current.pause();
-    } else {
-      audioRef.current.play();
-    }
-    setPlaying(!playing);
+    return audioRef.current;
   };
 
-  // Listen for custom events from SongTab to pause/resume
+  // Auto-play on first user interaction (browsers block autoplay without interaction)
   useEffect(() => {
-    const handleSongPlay = () => {
-      if (audioRef.current && playing) {
-        audioRef.current.pause();
-        setPausedBySong(true);
+    const startMusic = () => {
+      if (!initialized) {
+        const audio = getAudio();
+        audio.play().then(() => {
+          setPlaying(true);
+          setInitialized(true);
+        }).catch(() => {});
       }
     };
-    const handleSongPause = () => {
-      if (audioRef.current && pausedBySong) {
-        audioRef.current.play();
-        setPausedBySong(false);
-      }
-    };
-    window.addEventListener('song-play', handleSongPlay);
-    window.addEventListener('song-pause', handleSongPause);
+
+    window.addEventListener('click', startMusic, { once: true });
+    window.addEventListener('touchstart', startMusic, { once: true });
+    window.addEventListener('scroll', startMusic, { once: true });
+
     return () => {
-      window.removeEventListener('song-play', handleSongPlay);
-      window.removeEventListener('song-pause', handleSongPause);
+      window.removeEventListener('click', startMusic);
+      window.removeEventListener('touchstart', startMusic);
+      window.removeEventListener('scroll', startMusic);
     };
-  }, [playing, pausedBySong]);
+  }, [initialized]);
+
+  const toggle = () => {
+    const audio = getAudio();
+    if (playing) {
+      audio.pause();
+    } else {
+      audio.play();
+    }
+    setPlaying(!playing);
+    setInitialized(true);
+  };
 
   return (
     <motion.button

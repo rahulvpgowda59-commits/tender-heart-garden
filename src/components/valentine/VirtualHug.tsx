@@ -44,12 +44,14 @@ export const VirtualHug = () => {
             <p className="font-display text-xl text-rose-700 italic leading-relaxed">
               "Close your eyes and imagine me holding you. That's how much you mean to me."
             </p>
-            <button
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
               onClick={() => setHugging(false)}
-              className="mt-6 text-rose-400 text-sm font-body hover:text-rose-600 transition-colors"
+              className="glow-btn mt-6 px-8 py-3 rounded-full font-body text-sm tracking-wide"
             >
               I feel it 🤍
-            </button>
+            </motion.button>
           </motion.div>
         )}
       </AnimatePresence>

@@ -17,6 +17,21 @@ const reasons = [
   "Because waking up knowing you're mine is the greatest gift.",
   "Because my future only makes sense with you in it.",
   "Because you are not just someone I love — you are someone I deeply respect.",
+  "Because you make me feel like I belong somewhere.",
+  "Because your voice is my favorite thing to hear before I sleep.",
+  "Because you taught me that love doesn't have to hurt to be real.",
+  "Because even on my worst days, you choose to stay.",
+  "Because you make me believe I deserve to be loved this way.",
+  "Because the way you care about the little things makes everything feel big.",
+  "Because you hold my heart like it's the most precious thing in the world.",
+  "Because you are my calm in a world full of noise.",
+  "Because every prayer I ever whispered led me to you.",
+  "Because you are the reason I smile without even realizing it.",
+  "Because your love feels like coming home after the longest day.",
+  "Because I never knew what forever meant until I met you.",
+  "Because you love me even when I forget to love myself.",
+  "Because you are the most beautiful thing that ever happened to my life.",
+  "Because no matter how far apart we are, my heart always finds its way to you.",
 ];
 
 export const WhyILoveYou = () => {

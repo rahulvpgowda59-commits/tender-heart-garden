@@ -68,7 +68,7 @@ const Index = () => {
             <p>I see you. Not just the version of you that smiles for the world, but the you that is tired, the you that doubts, the you that is learning to trust again. I see all of you. And I am not leaving.</p>
             <p>I am building a future with you — not because it's a dream, but because you are the only reality I want. Every plan I make has your name written beside mine. Every hope I hold is one I want to share with you.</p>
             <p className="font-display text-lg text-rose-800 italic text-center py-2">"You are not a chapter. You are the whole story."</p>
-            <p className="text-right mt-4">Forever and intentionally yours,<br />Moni 🤍</p>
+            <p className="text-right mt-4">Forever and intentionally yours 🤍</p>
           </div>
         </motion.div>
       </section>

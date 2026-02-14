@@ -66,7 +66,7 @@ export const SongTab = () => {
         Our Song 🎶
       </h2>
       <p className="font-body text-rose-500 italic mb-8">
-        "Press play in your heart and think of us, Appi."
+        "Tap the image to play our song 💕"
       </p>
 
       <div className="glass-card rounded-3xl overflow-hidden">

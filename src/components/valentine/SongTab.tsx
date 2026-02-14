@@ -4,14 +4,6 @@ import romanticImage from '@/assets/romantic-song.jpg';
 
 const lyrics = [
   { time: 0, text: "🎵" },
-  { time: 2.33, text: "So many things I do, and girl" },
-  { time: 4.81, text: "You never wanna judge" },
-  { time: 6.43, text: "And baby, you're the reason" },
-  { time: 7.86, text: "That I ever fell in love" },
-  { time: 9.95, text: "You never gave me drama" },
-  { time: 11.4, text: "So no need to walk away" },
-  { time: 13.25, text: "Girl, I just wanna be right" },
-  { time: 14.7, text: "Girl, I just wanna be right with you every single day" },
 ];
 
 export const SongTab = () => {

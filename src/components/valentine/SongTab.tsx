@@ -4,22 +4,14 @@ import romanticImage from '@/assets/romantic-song.jpg';
 
 const lyrics = [
   { time: 0, text: "🎵" },
-  { time: 3, text: "I can never be without your love, you know me" },
-  { time: 7, text: "Your love is in my heart and in my blood, it runs deep" },
-  { time: 11, text: "Whatever you want in life, you know it's on me" },
-  { time: 15, text: "I'll be standin' by you till the end" },
-  { time: 19, text: "Yeah, we built it over trust, I'll never get enough" },
-  { time: 23, text: "You got me all in love with you" },
-  { time: 27, text: "So many things I do, and girl, you never wanna judge" },
-  { time: 31, text: "And baby, you're the reason that I ever fell in love" },
-  { time: 35, text: "You never gave me drama, so no need to walk away" },
-  { time: 39, text: "Girl, I just wanna be right with you every single day" },
-  { time: 43, text: "And if there's any trouble, yeah, we comin' through as one" },
-  { time: 47, text: "You know I got your back in every way under the sun" },
-  { time: 51, text: "Girl, I will be starin' lookin' at you every single night" },
-  { time: 55, text: "I just gotta let you know you brighten up my life" },
-  { time: 60, text: "Girl, I just want your lovin' all the time and every day" },
-  { time: 65, text: "I'll be standin' by you till the end... always 🤍" },
+  { time: 2.33, text: "So many things I do, and girl" },
+  { time: 4.81, text: "You never wanna judge" },
+  { time: 6.43, text: "And baby, you're the reason" },
+  { time: 7.86, text: "That I ever fell in love" },
+  { time: 9.95, text: "You never gave me drama" },
+  { time: 11.4, text: "So no need to walk away" },
+  { time: 13.25, text: "Girl, I just wanna be right" },
+  { time: 14.7, text: "Girl, I just wanna be right with you every single day" },
 ];
 
 export const SongTab = () => {
